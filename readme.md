@@ -46,6 +46,30 @@ The code needs data from the following Excel cell ranges:
 W30, S13, S10, S11, S12, V30, E11, I11, M11, B19, B20, E10, I10, M10, B17, B18, B9
 These cells should contain the data you want to export to the Access database. The data can be of various types (e.g., text, numbers) depending on what is stored in these cells.
 
+---
+
+### Import
+
+ImportFiles Subroutine:
+
+- Prompts the user to select an Excel file containing picking and replenish information.
+- Opens the selected file and copies its visible sheets to the active workbook.
+- Deletes any existing "P&R Lines" sheet in the active workbook and renames the copied sheet to "P&R Lines".
+- Closes the opened workbook.
+
+ImportHRM Subroutine:
+
+- Prompts the user to select a text file containing HRM data.
+- Creates a new sheet named "HRM" in the active workbook.
+- Imports the data from the selected text file into the "HRM" sheet.
+- Sets the first row of the "HRM" sheet to "N".
+- Selects the "Data" sheet.
+
+Required Data:
+
+- ImportFiles: Requires an Excel file with picking and replenish information.
+- ImportHRM: Requires a text file with HRM data.
+
 ## Contributions
 
 Contributions are welcome! If you have improvements or new macros to add, please submit a pull request or open an issue.
