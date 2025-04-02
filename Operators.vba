@@ -1,6 +1,6 @@
 Sub Individual_Effectivity()
     'This calculates the individual effectivity for the total period of extraction and also calculates on a weekly basis
-    
+    ' Declare and set references to the required worksheets
     Dim InP         As Worksheet
     Set InP = Worksheets("Individual Performance")
     
@@ -10,6 +10,7 @@ Sub Individual_Effectivity()
     Dim HRM         As Worksheet
     Set HRM = Worksheets("HRM")
     
+    ' Find the last row in the "Individual Performance" sheet
     Dim LastRowInP  As Range
     Set LastRowInP = InP.Range("A900000").End(xlUp)
     
@@ -17,23 +18,28 @@ Sub Individual_Effectivity()
     
     Dim Wi          As Long
     Dim Wf          As Long
-    
+
+    ' Prompt the user to input the starting and ending weeks
     Wi = InputBox("Please enter the starting week")
     Wf = InputBox("Please enter the final week")
     
     'Declaring SESAs as strings in the Individual sheet
     Dim arr(1 To 127) As String
     
+    ' Populate the array with SESAs from the "Individual Performance" sheet
     Dim K           As Integer
     For K = 3 To LastRowInP.Row
         arr(K - 2) = InP.Cells(K, 1).Value
     Next
     
+    ' Declare variables for data processing
     Dim i           As Long
+    Dim LastRowPL   As Range
+    Dim LastRowHRM  As Range
     Set LastRowPL = PRL.Range("A900000").End(xlUp)
     Set LastRowHRM = HRM.Range("A900000").End(xlUp)
     
-    'Dim of each variable
+    'Dim of each variables for counting different types of tasks
     Dim iOrdTruck   As Long
     Dim iHighLift   As Long
     Dim iSmalGang   As Long
@@ -41,9 +47,9 @@ Sub Individual_Effectivity()
     Dim iPaternost  As Long
     Dim iRepl       As Long
     Dim iTest       As Long
-    
     Dim iR          As Long
     
+    ' Variables for HRM data
     Dim iHRMOrdTruck As Double
     Dim iHRMHighLift As Double
     Dim iHRMElevator As Double
@@ -80,13 +86,14 @@ Sub Individual_Effectivity()
         iHRMRepl = 0
         iHRMOthers = 0
         
-        'PRL.Activate
+        ' Process data from the "P&R Lines" sheet
         For iRow = 3 To LastRowPL.Row
             
             'Check if the line works for appointed operator
             If arr(i) = PRL.Cells(iRow, 17).Value Then
                 
                 If (PRL.Cells(iRow, 15).Value = 100 Or PRL.Cells(iRow, 15).Value = 916) And (PRL.Cells(iRow, 22).Value <> 20 Or PRL.Cells(iRow, 22).Value <> 21 Or PRL.Cells(iRow, 22).Value <> 120 Or PRL.Cells(iRow, 22).Value <> 121) Then
+                    
                     'Count the total of picked Lines
                     If (PRL.Cells(iRow, 21).Value = "ORD.TRUCK") Or Left(PRL.Cells(iRow, 21).Value, 3) = "DPI" Or Left(PRL.Cells(iRow, 21).Value, 3) = "FBO" Or Left(PRL.Cells(iRow, 21).Value, 3) = "PAD" Or Left(PRL.Cells(iRow, 21).Value, 3) = "PAF" Then
                         iOrdTruck = iOrdTruck + 1
@@ -112,7 +119,7 @@ Sub Individual_Effectivity()
             
         Next iRow
         
-        'Registering picking data for specific operator:
+        'Registering picking data for specific operator in the "Individual Performance" sheet:
         InP.Cells(i + 2, 6).Value = iOrdTruck + iHighLift + iSmalGang + iLongGoods + iPaternost
         InP.Cells(i + 2, 17).Value = iRepl
         InP.Cells(i + 2, 7).Value = iOrdTruck
@@ -125,8 +132,10 @@ Sub Individual_Effectivity()
         
         For iRow = 2 To LastRowHRM.Row
             
+            ' Check if the current row corresponds to the operator
             If arr(i) = HRM.Cells(iRow, 2).Value Then
                 
+                ' Count hours based on task type
                 If HRM.Cells(iRow, 3).Value = 600 Or HRM.Cells(iRow, 3).Value = 604 Or HRM.Cells(iRow, 3).Value = 608 Or HRM.Cells(iRow, 3).Value = 617 Or HRM.Cells(iRow, 3).Value = 629 Or HRM.Cells(iRow, 3).Value = 630 Then
                     iHRMOrdTruck = iHRMOrdTruck + HRM.Cells(iRow, 11).Value
                 ElseIf HRM.Cells(iRow, 3).Value = 601 Or HRM.Cells(iRow, 3).Value = 605 Or HRM.Cells(iRow, 3).Value = 609 Then
