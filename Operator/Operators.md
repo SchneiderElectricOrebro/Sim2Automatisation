@@ -1,106 +1,214 @@
-### Operator
+# Operators VBA Module Documentation
 
-#### Subroutine Name: Individual_Effectivity
+## Overview
 
-##### Purpose:
+The `Operators.vba` file contains subroutines for calculating individual operator performance and productivity metrics. The main subroutine, `Individual_Effectivity`, processes data from multiple worksheets to calculate task counts, hours worked, and productivity for each operator over a specified period. It also includes weekly calculations and highlights missing HRM data.
 
-The `Individual_Effectivity` subroutine calculates the individual effectivity of operators for a given period of time. It processes data from three worksheets (`Individual Performance`, `P&R Lines`, and `HRM`) to compute task counts, hours worked, and productivity metrics. The subroutine also calculates these metrics on a weekly basis.
+---
 
-##### Inputs:
+## Subroutines
 
-1. Starting Week (`Wi`): The user is prompted to input the starting week for the calculation.
-2. Ending Week (`Wf`): The user is prompted to input the ending week for the calculation.
+### 1. **Individual_Effectivity**
 
-##### Worksheets Used:
+#### Purpose
 
-1. `Individual Performance` (InP):
-   - Stores the results of the calculations, including task counts, hours worked, and productivity metrics.
-2. `P&R Lines` (PRL):
-   - Contains data about tasks performed by operators.
-3. `HRM`:
-   - Contains data about hours worked by operators.
+Calculates individual operator performance and productivity for a specified period and on a weekly basis. It processes data from the `P&R Lines` and `HRM` sheets and stores the results in the `Individual Performance` sheet.
 
-##### Key Variables:
+---
 
-- `Wi` and `Wf`: Starting and ending weeks for the calculation.
-- `arr`: An array that stores the SESAs (unique identifiers for operators) from the `Individual Performance` sheet.
-- Task Counters:
-  - `iOrdTruck`, `iHighLift`, `iSmalGang`, `iLongGoods`, `iPaternost`, `iRepl`: Counters for different types of tasks.
-- HRM Data Variables:
-  - `iHRMOrdTruck`, `iHRMHighLift`, `iHRMElevator`, `iHRMSmalgang`, `iHRMLongGoods`, `iHRMRepl`, `iHRMOthers`: Variables to store hours worked for different task types.
+#### Key Steps
 
-##### Steps:
+1. **Initialize Variables**:
 
-1. Initialize Worksheets and Variables:
+   - Declares and initializes variables for task counts, HRM data, and operator identifiers (SESAs).
 
-   - References to the `Individual Performance`, `P&R Lines`, and `HRM` worksheets are set.
-   - The last row of data is determined for each worksheet.
-   - The user is prompted to input the starting and ending weeks.
+2. **Prompt for Weeks**:
 
-2. Extract SESAs:
+   - Prompts the user to input the starting (`Wi`) and ending (`Wf`) weeks for the calculation.
 
-   - SESAs (operator identifiers) are extracted from the `Individual Performance` sheet and stored in the `arr` array.
+3. **Process Data from `P&R Lines`**:
 
-3. Clear Previous Data:
+   - Loops through the `P&R Lines` sheet to count tasks such as "Ordinary Truck", "High Lift", "Small Gang", etc., for each operator.
 
-   - Clears the contents and formatting of the result columns in the `Individual Performance` sheet.
+4. **Process Data from `HRM`**:
 
-4. Process Data for the Total Period:
+   - Loops through the `HRM` sheet to calculate hours worked for each task type.
 
-   - Loops through each operator in the arr array.
-   - For each operator:
-     - Resets task counters and HRM data variables.
-     - Processes data from the `P&R Lines` sheet to count tasks performed by the operator.
-     - Processes data from the `HRM` sheet to calculate hours worked by the operator.
-     - Registers task counts, hours worked, and productivity metrics in the `Individual Performance` sheet.
+5. **Register Results**:
 
-5. Highlight Missing HRM Data:
+   - Updates the `Individual Performance` sheet with task counts, hours worked, and productivity metrics for each operator.
 
-   - Checks for missing HRM data and highlights cells with missing information in the `Individual Performance` sheet.
+6. **Highlight Missing HRM Data**:
 
-6. Weekly Calculations:
+   - Highlights cells where task data exists but corresponding HRM data is missing.
 
-   - Loops through each week in the specified range (Wi to Wf).
-   - For each week:
-     - Resets task counters and HRM data variables.
-     - Processes data from the `P&R Lines` and `HRM` sheets for the specific week.
-     - Registers weekly task counts, hours worked, and productivity metrics in the `Individual Performance` sheet.
+7. **Weekly Calculations**:
+   - Repeats the above steps for each week in the specified range (`Wi` to `Wf`).
 
-7. Highlight Missing Weekly HRM Data:
+---
 
-   - Checks for missing HRM data on a weekly basis and highlights cells with missing information.
+#### Inputs
 
-##### Outputs:
+- **User Input**:
+  - Starting week (`Wi`) and ending week (`Wf`).
+- **Worksheets**:
+  - `Individual Performance`: Stores the results.
+  - `P&R Lines`: Contains task data.
+  - `HRM`: Contains hours worked data.
 
-The results are stored in the `Individual Performance` sheet:
+---
 
-1. Task Counts:
+#### Outputs
 
-   - Total tasks performed by the operator.
-   - Breakdown of tasks by type (e.g., ORD.TRUCK, HIGH LIFT, etc.).
+- **Updated `Individual Performance` Sheet**:
+  - Task counts, hours worked, and productivity metrics for each operator.
+  - Weekly data for the specified period.
 
-2. Hours Worked:
+---
 
-   - Total hours worked by the operator.
-   - Breakdown of hours by task type.
+#### Limitations
 
-3. Productivity Metrics:
+1. **Hardcoded Conditions**:
+   - The subroutine uses hardcoded conditions for filtering and aggregating data.
+2. **No Error Handling**:
+   - The subroutine does not handle errors, such as missing sheets or invalid data.
 
-   - Productivity for each task type (tasks per hour).
-   - Overall productivity.
+---
 
-##### Error Handling:
+### 2. **Individual_EffectivityTotal**
 
-- The subroutine uses On Error Resume Next to handle potential errors during data processing. This ensures that the subroutine continues execution even if an error occurs.
+#### Purpose
 
-##### Assumptions:
+Calculates individual operator performance and productivity for the total period of extraction. It processes data from the `P&R Lines` and `HRM` sheets and stores the results in the `Individual Performance` sheet.
 
-1. The `Individual Performance`, `P&R Lines`, and `HRM` worksheets exist and contain valid data.
-2. The user inputs valid week numbers for the starting and ending weeks.
-3. The data in the worksheets is structured as expected (e.g., specific columns contain specific types of data).
+---
 
-##### Limitations:
+#### Key Steps
 
-1. The subroutine does not validate the user input for the starting and ending weeks.
-2. If the data structure in the worksheets changes, the subroutine may not function correctly.
-3. The use of 'On Error Resume Next' may suppress critical errors, making debugging difficult.
+1. **Initialize Variables**:
+
+   - Declares and initializes variables for task counts, HRM data, and operator identifiers (SESAs).
+
+2. **Process Data from `P&R Lines`**:
+
+   - Loops through the `P&R Lines` sheet to count tasks such as "Ordinary Truck", "High Lift", "Small Gang", etc., for each operator.
+
+3. **Process Data from `HRM`**:
+
+   - Loops through the `HRM` sheet to calculate hours worked for each task type.
+
+4. **Register Results**:
+
+   - Updates the `Individual Performance` sheet with task counts, hours worked, and productivity metrics for each operator.
+
+5. **Highlight Missing HRM Data**:
+   - Highlights cells where task data exists but corresponding HRM data is missing.
+
+---
+
+#### Inputs
+
+- **Worksheets**:
+  - `Individual Performance`: Stores the results.
+  - `P&R Lines`: Contains task data.
+  - `HRM`: Contains hours worked data.
+
+---
+
+#### Outputs
+
+- **Updated `Individual Performance` Sheet**:
+  - Task counts, hours worked, and productivity metrics for each operator.
+
+---
+
+#### Limitations
+
+1. **Hardcoded Conditions**:
+   - The subroutine uses hardcoded conditions for filtering and aggregating data.
+2. **No Error Handling**:
+   - The subroutine does not handle errors, such as missing sheets or invalid data.
+
+---
+
+## Key Components
+
+### Worksheets Used
+
+| **Worksheet**            | **Description**                                                                                        |
+| ------------------------ | ------------------------------------------------------------------------------------------------------ |
+| `Individual Performance` | Stores the results of the calculations, including task counts, hours worked, and productivity metrics. |
+| `P&R Lines`              | Contains task data for operators.                                                                      |
+| `HRM`                    | Contains hours worked data for operators.                                                              |
+
+---
+
+### Tasks Aggregated
+
+| **Task Name**    | **Description**                                        |
+| ---------------- | ------------------------------------------------------ |
+| `Ordinary Truck` | Counts tasks related to ordinary trucks.               |
+| `High Lift`      | Counts tasks related to high lifts.                    |
+| `Small Gang`     | Counts tasks related to small gang operations.         |
+| `Long Goods`     | Counts tasks related to long goods.                    |
+| `Paternoster`    | Counts tasks related to paternoster operations.        |
+| `Replenishment`  | Counts replenishment tasks (`REPL-HIGH`, `REPL-LONG`). |
+
+---
+
+### HRM Data Processed
+
+| **HRM Task Type** | **Description**                       |
+| ----------------- | ------------------------------------- |
+| `Ordinary Truck`  | Hours worked on ordinary truck tasks. |
+| `High Lift`       | Hours worked on high lift tasks.      |
+| `Elevator`        | Hours worked on elevator tasks.       |
+| `Small Gang`      | Hours worked on small gang tasks.     |
+| `Long Goods`      | Hours worked on long goods tasks.     |
+| `Replenishment`   | Hours worked on replenishment tasks.  |
+| `Others`          | Hours worked on other tasks.          |
+
+---
+
+## Recommendations for Improvement
+
+1. **Add Error Handling**:
+
+   - Include error handling to manage issues such as missing sheets or invalid data.  
+     Example:
+     ```vba
+     On Error Resume Next
+     ' Code here
+     If Err.Number <> 0 Then
+         MsgBox "An error occurred: " & Err.Description, vbExclamation, "Error"
+     End If
+     On Error GoTo 0
+     ```
+
+2. **Optimize Code**:
+
+   - Use `Range` objects and arrays for faster data processing instead of iterating through rows with `Cells`.
+
+3. **Dynamic Conditions**:
+   - Replace hardcoded conditions with configurable parameters to make the subroutines more flexible.
+
+---
+
+## Example Usage
+
+### Individual_Effectivity
+
+1. Open the workbook containing the `Individual Performance`, `P&R Lines`, and `HRM` sheets.
+2. Run the `Individual_Effectivity` subroutine.
+3. Input the starting and ending weeks when prompted.
+4. Verify that the `Individual Performance` sheet is updated with task counts, hours worked, and productivity metrics.
+
+### Individual_EffectivityTotal
+
+1. Open the workbook containing the `Individual Performance`, `P&R Lines`, and `HRM` sheets.
+2. Run the `Individual_EffectivityTotal` subroutine.
+3. Verify that the `Individual Performance` sheet is updated with task counts, hours worked, and productivity metrics for the total period.
+
+---
+
+Let me know if you need further modifications or additional details!
