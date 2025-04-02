@@ -70,10 +70,6 @@ Required Data:
 - ImportFiles: Requires an Excel file with picking and replenish information.
 - ImportHRM: Requires a text file with HRM data.
 
-## Contributions
-
-Contributions are welcome! If you have improvements or new macros to add, please submit a pull request or open an issue.
-
 ### Module1
 
 Macro1 Subroutine:
@@ -93,6 +89,20 @@ Required Data:
 
 - Macro1: Needs data from the "Queue Group" sheet.
 - Macro2: Needs data from the "P&R Lines" and "Queue Group" sheets.
+
+### Module2
+
+SD Subroutine:
+
+- Displays a user form named SelectDate. This user form must be defined elsewhere in your VBA project.
+
+test Subroutine:
+
+- This subroutine is empty and does not perform any actions.
+
+## Contributions
+
+Contributions are welcome! If you have improvements or new macros to add, please submit a pull request or open an issue.
 
 ## License
 
