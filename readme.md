@@ -74,6 +74,26 @@ Required Data:
 
 Contributions are welcome! If you have improvements or new macros to add, please submit a pull request or open an issue.
 
+### Module1
+
+Macro1 Subroutine:
+
+- Selects cell C2.
+- Sets a formula in cell C2. The formula references cells in the "Queue Group" sheet and includes some invalid references (#REF!).
+
+Macro2 Subroutine:
+
+- Selects cell C2.
+- Sets a formula in cell C2 that references cells in the "P&R Lines" and "Queue Group" sheets.
+- Selects cell D2 and sets a similar formula.
+- Selects cell E2 and sets a similar formula.
+- Selects cell E3.
+
+Required Data:
+
+- Macro1: Needs data from the "Queue Group" sheet.
+- Macro2: Needs data from the "P&R Lines" and "Queue Group" sheets.
+
 ## License
 
 This repository is licensed under [insert license type]. Please review the license file for more details.
